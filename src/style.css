@@ -59,3 +59,30 @@ main {
   cursor: pointer;
 }
 
+.meme{
+  position: relative;
+  display: inline;
+}
+
+.meme-img{
+  width: 100%;
+  height: auto;
+}
+
+.meme-toptext, .meme-bottomtext{
+  position: absolute;
+  color:  white;
+  text-shadow: 2px 2px 4px black;
+  text-align: center;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.meme-toptext{
+  top: 10px;
+}
+
+.meme-bottomtext{
+  bottom: 10px;
+}

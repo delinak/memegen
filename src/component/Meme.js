@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 export default function Meme(){
 
     const [memes, setMemes] = useState([]);
-    const[loading, setLoading] = useState(true);
     const[randomMeme, setRandomMeme] = useState(null);
     const [text, setText] = useState(
         {topText: "", bottomText: ""});
@@ -14,15 +13,9 @@ export default function Meme(){
   
     useEffect(() => {
         async function fetchMeme(){
-            try{
-                const response = await fetch('https://api.imgflip.com/get_memes')
-                const data = await response.json();
-                setMemes(data.data.memes);
-                setLoading(false);
-            }catch (error){
-                console.error('Error fetching memes:', error);
-                setLoading(false);
-            }
+            const response = await fetch('https://api.imgflip.com/get_memes')
+            const data = await response.json();
+            setMemes(data.data.memes);
         }
         fetchMeme();
     }, [])
@@ -32,15 +25,12 @@ export default function Meme(){
         setRandomMeme(memes[randomIndex])
     }
 
-    if(loading){
-        return <p>Loading memes...</p>
-    }
-
     function handleChange(event){
-        setText(prevFormData => {
+        const {name, value} = event.target
+        setText(prevMeme => {
             return {
-                ...prevFormData,
-                [event.target.name] : event.target.value
+                ...prevMeme,
+                [name] : value
             }
         })
     }
@@ -54,6 +44,7 @@ export default function Meme(){
                     placeholder="top text"
                     onChange={handleChange}
                     name="topText"
+                    value={text.topText}
                 />
                 <input 
                     type="text"
@@ -61,14 +52,17 @@ export default function Meme(){
                     placeholder="bottom text"
                     onChange={handleChange}
                     name="bottomText"
-
+                    value={text.bottomText}
                 />
                 <button className="form-button" onClick={getRandomMeme}> Get a new meme image  🖼</button>
-                {randomMeme && (
-                    <div>
-                        <img src={randomMeme.url} alt="" className="meme-img"/>
-                    </div>
-                )}
+                <div className="meme">
+                    {randomMeme && (
+                        <div>
+                            <img src={randomMeme.url} alt="" className="meme-img"/>
+                            <h1 className="meme-toptext">{text.topText}</h1>
+                            <h1 className="meme-bottomtext">{text.bottomText}</h1>
+                        </div> )}
+                </div>
             </div>
         </main>
     )
