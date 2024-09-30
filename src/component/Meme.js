@@ -18,7 +18,7 @@ export default function Meme(){
             setMemes(data.data.memes);
         }
         fetchMeme();
-    }, [])
+    }, []) //dependencies array - limits effect run
 
     function getRandomMeme(){
         const randomIndex = Math.floor(Math.random() * memes.length)
